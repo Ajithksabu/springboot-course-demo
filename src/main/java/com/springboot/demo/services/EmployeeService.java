@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.springboot.demo.entities.Employee;
+import com.springboot.demo.exceptions.UserAlreadyCreatedWithSameEmployeeCodeException;
 import com.springboot.demo.exceptions.UserNotFoundException;
 import com.springboot.demo.repositiories.EmployeeRepository;
 
@@ -20,8 +21,11 @@ public class EmployeeService {
         return employeeRepostory.findAll();
     }
 
-    public void addEmployee(Employee employee) {
-        System.out.println("AKS");
+    public void addEmployee(Employee employee) throws UserAlreadyCreatedWithSameEmployeeCodeException {
+        Optional<Employee> optionalEmployee = employeeRepostory.findByEmployeeCode(employee.getEmployeeCode());
+        if (optionalEmployee.isPresent()) {
+            throw new UserAlreadyCreatedWithSameEmployeeCodeException("User with same employee code already exist");
+        }
         employeeRepostory.save(employee);
     }
 
