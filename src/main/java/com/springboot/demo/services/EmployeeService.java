@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.springboot.demo.entities.Employee;
+import com.springboot.demo.exceptions.UserNotFoundException;
 import com.springboot.demo.repositiories.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,13 @@ public class EmployeeService {
         employeeRepostory.save(employee);
     }
 
-    public Optional<Employee> getEmployeeById(Long id) {
-        return employeeRepostory.findById(id);
+    public Optional<Employee> getEmployeeById(Long id) throws UserNotFoundException {
+        Optional<Employee> employee = employeeRepostory.findById(id);
+        if (!employee.isPresent()) {
+            throw new UserNotFoundException("User not found in the db for the id " + id);
+        }
+
+        return employee;
     }
 
     public Optional<Employee> getEmployeeByBranch(String branch) {
