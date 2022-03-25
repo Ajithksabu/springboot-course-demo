@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.springboot.demo.entities.Employee;
+import com.springboot.demo.exceptions.EmployeeBranchNotFoundException;
 import com.springboot.demo.exceptions.UserAlreadyCreatedWithSameEmployeeCodeException;
 import com.springboot.demo.exceptions.UserNotFoundException;
 import com.springboot.demo.services.EmployeeService;
@@ -57,7 +58,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/byBranchName/{branch}")
-    public Optional<Employee> getEmployeeByBranch(@PathVariable("branch") String branch) {
-        return employeeService.getEmployeeByBranch(branch);
+    public Optional<Employee> getEmployeeByBranch(@PathVariable("branch") String branch)
+            throws EmployeeBranchNotFoundException {
+        Optional<Employee> employee = employeeService.getEmployeeByBranch(branch);
+        if (!employee.isPresent()) {
+            throw new EmployeeBranchNotFoundException("Employee branch not found");
+        }
+        return employee;
     }
 }
