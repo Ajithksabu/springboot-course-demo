@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "employee")
@@ -13,6 +14,7 @@ public class Employee {
     @GeneratedValue
     private Long id;
     @Column(length = 50, nullable = false, unique = false)
+    @NotBlank(message = "Name cannot be blank")
     private String name;
     @Column(length = 50, nullable = false, unique = false)
     private Integer age;
