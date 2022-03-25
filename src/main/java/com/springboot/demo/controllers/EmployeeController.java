@@ -3,6 +3,8 @@ package com.springboot.demo.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import com.springboot.demo.entities.Employee;
 import com.springboot.demo.exceptions.UserAlreadyCreatedWithSameEmployeeCodeException;
 import com.springboot.demo.exceptions.UserNotFoundException;
@@ -32,7 +34,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee")
-    public ResponseEntity<Void> addEmployee(@RequestBody Employee employee, UriComponentsBuilder builder) {
+    public ResponseEntity<Void> addEmployee(@Valid @RequestBody Employee employee, UriComponentsBuilder builder) {
         try {
             employeeService.addEmployee(employee);
             HttpHeaders headers = new HttpHeaders();
@@ -40,7 +42,7 @@ public class EmployeeController {
             return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
         } catch (UserAlreadyCreatedWithSameEmployeeCodeException ex) {
-            throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED, ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, ex.getMessage());
         }
     }
 
