@@ -22,6 +22,7 @@ public class EmployeeService {
         return employeeRepostory.findAll();
     }
 
+    // Add employee
     public void addEmployee(Employee employee) throws UserAlreadyCreatedWithSameEmployeeCodeException {
         Optional<Employee> optionalEmployee = employeeRepostory.findByEmployeeCode(employee.getEmployeeCode());
         if (optionalEmployee.isPresent()) {
