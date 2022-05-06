@@ -17,10 +17,12 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepostory;
 
+    // Get all employees
     public List<Employee> getAllEmployees() {
         return employeeRepostory.findAll();
     }
 
+    // Add employee
     public void addEmployee(Employee employee) throws UserAlreadyCreatedWithSameEmployeeCodeException {
         Optional<Employee> optionalEmployee = employeeRepostory.findByEmployeeCode(employee.getEmployeeCode());
         if (optionalEmployee.isPresent()) {
@@ -29,6 +31,7 @@ public class EmployeeService {
         employeeRepostory.save(employee);
     }
 
+    // Get employee by ID
     public Optional<Employee> getEmployeeById(Long id) throws UserNotFoundException {
         Optional<Employee> employee = employeeRepostory.findById(id);
         if (!employee.isPresent()) {
@@ -38,6 +41,7 @@ public class EmployeeService {
         return employee;
     }
 
+    // Get by branch
     public Optional<Employee> getEmployeeByBranch(String branch) {
         return employeeRepostory.findByBranch(branch);
     }
