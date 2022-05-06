@@ -41,6 +41,7 @@ public class EmployeeService {
         return employee;
     }
 
+    // Get by branch
     public Optional<Employee> getEmployeeByBranch(String branch) {
         return employeeRepostory.findByBranch(branch);
     }
