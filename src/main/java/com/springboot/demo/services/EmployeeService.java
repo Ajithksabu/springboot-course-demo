@@ -31,6 +31,7 @@ public class EmployeeService {
         employeeRepostory.save(employee);
     }
 
+    // Get employee by ID
     public Optional<Employee> getEmployeeById(Long id) throws UserNotFoundException {
         Optional<Employee> employee = employeeRepostory.findById(id);
         if (!employee.isPresent()) {
